@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    <input type="text" id="text">
+    <input type="button" id="button" value="提交">
+</div>
+
+</body>
+</html>
+<script src="https://cdn.wilddog.com/sdk/js/2.3.10/wilddog.js"></script>
+<script language="JavaScript">
+    // 登录邮箱frankerzeng@163.com
+    var config = {
+        syncURL: "https://chat20161223.wilddogio.com" //输入节点 URL
+    };
+    wilddog.initializeApp(config);
+    var ref = wilddog.sync().ref();
+
+    document.querySelector('#button').onclick = function () {
+        var content = document.querySelector('#text').value;
+        console.log(content);
+
+        var time = new Date().getTime();
+
+        ref.set({
+                    "msg": {
+                        'time': time,
+                        'content': content
+                    }
+                }
+        );
+
+        // snapshot 里面的数据会一直和云端保持同步
+        ref.on("value", function (snapshot) {
+            console.log(snapshot.val());
+        })
+    }
+
+</script>
